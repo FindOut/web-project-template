@@ -1,0 +1,48 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+def ports = [8080, 9000]
+def excludeCommands = ['Google', 'chrome.exe']
+
+def shutDownPortsWin = {
+    def netstat = "netstat -ano".execute()
+//    netstat.waitFor()
+    def matchedLines = netstat.in.text.readLines()[3..-1].findAll { it =~ ~/:${ports.join('|')} / }
+    def pids = matchedLines*.tokenize()*.getAt(-1).unique()
+
+    pids.each { pid ->
+
+        def pidDescription = """tasklist /svc /FI "PID eq $pid\"""".execute()
+        pidDescription.waitFor()
+        def process = pidDescription.in.text.readLines()
+
+        if (pid != '0' && process.size() > 3 && !(process[3].tokenize()[0] in excludeCommands)){
+            def killTask = """taskkill /F /PID $pid """.execute()
+            killTask.waitFor()
+        }
+    }
+}
+
+def shutDownPortsUnix = {
+    ports.each { port ->
+        def cmd = "lsof -i :$port"
+        def process = cmd.execute()
+        //noinspection GroovyMissingReturnStatement
+        process.in.eachLine(2) { line ->
+            def lineParts = line.tokenize()
+            if (!(lineParts[0] in excludeCommands)) {
+                def killProcess = "kill -9 ${ lineParts[1] }".execute()
+                killProcess.waitFor()
+            }
+        }
+    }
+}
+
+task cleanUpBefore << {
+    println "Making sure servers aren't already started"
+    Os.isFamily(Os.FAMILY_WINDOWS) ? shutDownPortsWin() : shutDownPortsUnix()
+}
+
+task shutDownServers << {
+    println "Shutting down servers"
+    Os.isFamily(Os.FAMILY_WINDOWS) ? shutDownPortsWin() : shutDownPortsUnix()
+}

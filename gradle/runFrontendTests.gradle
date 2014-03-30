@@ -1,0 +1,5 @@
+task runFrontendTests(type: GruntTask) {
+   group "Test/dev"
+   description = "Run all frontend tests."
+   gruntArgs = "--gruntfile ../frontend/Gruntfile.js karma:continuous"
+}

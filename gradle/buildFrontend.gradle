@@ -1,0 +1,13 @@
+task runGruntBuild(type: GruntTask) {
+    group "Build"
+    description = "Run grunt build"
+    gruntArgs = "--gruntfile ../frontend/Gruntfile.js build"
+}
+
+task buildFrontend(dependsOn: runGruntBuild, type: Copy) {
+   group "Build"
+   description = "Run grunt build and copy the result to gradle/dist/prod"
+   from '../frontend/dist'
+   into 'dist'
+}
+

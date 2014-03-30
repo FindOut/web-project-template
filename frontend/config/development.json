@@ -1,0 +1,6 @@
+{
+    "appName": "AppName",
+    "env": "development",
+    "urlBackend": "http://localhost:8080/hansoftws/chart/list",
+    "enableLegend": false
+}

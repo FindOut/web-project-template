@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" ng-app="app" ng-cloak ng-controller="MainCtrl as mainCtrl">
+<head>
+    <meta charset="utf-8">
+    <title>{{mainCtrl.appName}}</title>
+
+    <!-- build:css css/main.min.css -->
+    <link rel="stylesheet" href="components/bootstrap-css/css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <!-- /build -->
+
+    <!-- build:js js/app.min.js -->
+    <script type="text/javascript" src="components/angular/angular.js"></script>
+    <script type="text/javascript" src="components/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="components/bootstrap-css/js/bootstrap.js"></script>
+    <script type="text/javascript" src="components/underscore/underscore-min.js"></script>
+    <script type="text/javascript" src="components/momentjs/min/moment.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="js/main/MainCtrl.js"></script>
+    <script type="text/javascript" src="config.js"></script>
+    <!-- /build -->
+
+</head>
+<body>
+<!-- build:include shared/header.html -->
+<ng-include src="'shared/header.html'"></ng-include>
+<!-- /build -->
+<div ng-cloak>
+    <div ng-hide="mainCtrl.dataLoaded && !mainCtrl.error" class="modal-backdrop"></div>
+    <div ng-hide="mainCtrl.dataLoaded || mainCtrl.error" class="alerter">
+        <div class="alert alert-info" ng-hide="mainCtrl.dataLoaded">
+            <div class="spinner"></div>
+            <p>{{mainCtrl.loadText}}</p>
+        </div>
+    </div>
+    <div ng-hide="!mainCtrl.error" class="alerter">
+        <div class="alert alert-danger" ng-hide="!mainCtrl.error">
+            <p>Error: {{mainCtrl.errorMessage}}</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

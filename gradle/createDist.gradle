@@ -1,0 +1,9 @@
+task createDist(dependsOn: buildApp, type: Zip) {
+    group "Build"
+    description "Creates a zipped dist folder containing frontend dir, backend dir and the dist dir created by buildApp"
+    classifier = 'hansoft-dist'
+    from '../'
+    include 'frontend/**/*'
+    include 'backend/**/*'
+    include 'gradle/dist/**/*'
+}

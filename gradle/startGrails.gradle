@@ -1,0 +1,21 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+task startGrailsWindows(type: ExecWait) {
+    group "Test/dev"
+    description "Starts the grails application"
+    command "cmd /c grailsw run-app --plain-output"
+    directory '../backend/hansoftws/'
+    ready 'Server running.'
+}
+
+task startGrailsUnix(type: ExecWait) {
+    group "Test/dev"
+    description "Starts the grails application"
+
+    command './grailsw run-app --plain-output'
+    ready 'Server running.'
+    directory '../backend/hansoftws/'
+}
+task startGrails << {
+    Os.isFamily(Os.FAMILY_WINDOWS) ? startGrailsWindows.execute() : startGrailsUnix.execute()
+}

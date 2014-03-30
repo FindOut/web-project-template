@@ -1,0 +1,11 @@
+task clean(type: Delete) {
+    delete 'dist'
+}
+
+task buildApp(dependsOn: [clean, buildFrontend, buildBackend]) {
+     group "Build"
+     description "Creates a dist folder containing a war file for backend and static files for frontend"
+}
+
+buildFrontend.shouldRunAfter clean
+buildBackend.shouldRunAfter clean

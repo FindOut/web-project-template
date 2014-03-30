@@ -1,0 +1,5 @@
+workspace.xml
+tasks.xml
+.gradle/
+gradle/buildSrc/build
+backend/hansoftws/web-app/data/burndown.json

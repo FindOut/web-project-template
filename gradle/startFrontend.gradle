@@ -1,0 +1,23 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+task startFrontendWindows(type: ExecWait) {
+    group "Test/dev"
+    description "Starts the frontend server as defined in the server task frontend/Gruntfile.js"
+
+    command "cmd /c grunt server"
+    ready "Running \"watch:devserver\" (watch) task"
+    directory "../frontend/"
+}
+
+task startFrontendUnix(type: ExecWait) {
+    group "Test/dev"
+    description "Starts the frontend server as defined in the server task frontend/Gruntfile.js"
+
+    command "grunt server"
+    ready "Running \"watch:devserver\" (watch) task"
+    directory "../frontend/"
+}
+
+task startFrontend << {
+    Os.isFamily(Os.FAMILY_WINDOWS) ? startFrontendWindows.execute() : startFrontendUnix.execute()
+}

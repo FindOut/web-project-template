@@ -1,0 +1,16 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+task createWar(type: ExecWait) {
+    group "Build"
+    description "Creates a ROOT.war in backend/hansoftws/dist/"
+    command Os.isFamily(Os.FAMILY_WINDOWS) ? "cmd /c grailsw war dist/ROOT.war" : "./grailsw war dist/ROOT.war"
+    directory '../backend/hansoftws/'
+    ready 'Done creating WAR'
+}
+
+task buildBackend(dependsOn: createWar, type: Copy) {
+    group "Build"
+    description "Creates a ROOT.war in gradle/dist"
+    from '../backend/hansoftws/dist/ROOT.war'
+    into 'dist'
+}

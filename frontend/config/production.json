@@ -1,0 +1,6 @@
+{
+    "appName": "AppName",
+    "env": "production",
+    "urlBackend": "---CHANGE THIS---",
+    "enableLegend": false
+}

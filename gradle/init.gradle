@@ -1,0 +1,9 @@
+task npm(type: Exec) {
+    group "Build"
+    description "Installs all Node.js dependencies defined in package.json"
+
+    workingDir "../frontend"
+    commandLine = ["npm", "install"]
+    inputs.file "package.json"
+    outputs.dir "node_modules"
+}
